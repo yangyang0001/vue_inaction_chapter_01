@@ -1,0 +1,10 @@
+全文检索    command + shift + f 
+行移动      option + 上/下 
+复制行      option + shift + 上/下 
+格式化      option + shift + f
+删除一行    command + shift + k
+
+
+
+
+
