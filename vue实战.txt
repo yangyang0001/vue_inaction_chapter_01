@@ -566,7 +566,54 @@ webpack 基础配置:
             "dev":  "webpack-dev-server --host 127.0.0.1 --port 8888 --open --config webpack.config.js"
         }
 
-    6、    
+    6、在 根目录下 创建一个 src 文件夹, src 文件夹习创建 文件 index.html 和 index.js 文件!
+        配置 webpack.config.js 文件的 输入 和 输出
+            // 自定义打包入口文件
+            entry: path.join(__dirname, './src/index.js'),
+
+            // 自定义打包输入文件
+            output: {
+                path: path.join(__dirname, './dist'),    // 输出文件目录
+                publicPath: './dist',                    // 指定资源文件引用的目录, 如果资源放在 CDN 上, 可填写 CDN 地址!
+                filename: 'js/main.js'                   // 文件名称
+            },
+    
+
+        TODO: 注意点: 如果感觉配置有问题, 可以先用 dev 为 webpack 生成一下文件录看下, 然后再配置!
+            "scripts": {
+                "test": "echo \"Error: no test specified\" && exit 1",
+                "dev":  "webpack"
+            }
+
+        在 "dev": "webpack serve" 时使用, 根据 npm run dev 提示配置, 具体提示如下:
+            publicPath: '/dist/',  // webpack.config.js 中的配置           TODO: pathA 
+            <i> [webpack-dev-middleware] wait until bundle finished: /
+            asset js/main.js 243 KiB [emitted] (name: main)               TODO: pathB  
+
+        TODO: http 访问页面的情况下, script src="publicPath + 生成的js文件地址" 即为 src="pathA + pathB"
+
+        TODO: 推荐: 在 package.json 中的 output 中尽量使 path 和 publicPath 一致!
+    
+    7、执行 npm run dev 就可以了!
+
+.vue 文件:
+    文件组成: <template></template>, <script></script>, <style></style> 三部分!
+    <style scoped> 中的 scoped 属性, 表示当前css样式, 只对当前这个组件有效, 否则影响整个页面!
+
+使用 .vue 文件 必须使用插件, vue-loader 和 vue-style-loader
+    使用的 plugins 和 loader 比较多:
+    npm install --save vue
+    npm install --save-dev vue-loader
+    npm install --save-dev vue-style-loader
+    npm install --save-dev vue-template-compiler
+    npm install --save-dev vue-hot-reload-api
+    npm install --save-dev babel
+    npm install --save-dev babel-loader
+    npm install --save-dev babel-core
+    npm install --save-dev babel-plugin-transform-runtime
+    npm install --save-dev babel-preset-es2015
+    npm install --save-dev babel-runtime        
+
 ---------------------------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------- webpack 前端工程化的案例 ------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------------------------
@@ -596,6 +643,7 @@ webpack 的安装和配置
                 mode : 'development'
             }
 
+        TODO: 这里注意 如果想看直接生成的过程, 先配置为 "dev": "webpack" 
         2、在 package.json 的 scripts 节点下 新增 dev 脚本如下:
             "scripts": {
                 "test": "echo \"Error: no test specified\" && exit 1",
@@ -617,6 +665,7 @@ webpack 的安装和配置
 
             解释: 在执行命令 npm run dev 后, 将 index.js 和 jquery.js 合并为 main.js 了
 
+        
         4、修改 index.html 中的 script 引用改为 dist 文件夹下的 main.js
 
         5、如果修改 index.js 中的东西 都得重新执行webpack命令 npm run dev 
@@ -722,7 +771,7 @@ webpack 中的 loader (加载器):
         使用 三种 loader 处理 .less 文件, 且必须 安装 less 
 
         安装: 
-            nup install less-loader less -D
+            npm install less-loader less -D
 
         配置:
             在 webpack.config.js 中添加 module -> rules 数组中添加 loader 规则
@@ -753,7 +802,7 @@ webpack 中的 loader (加载器):
         在 index.js 中 插入如下相关的高级 js 语法, 这时候需要 babel-loader 进行加载
 
         安装:
-            npm i babel-loader @babel/core @babel/plugin-proposal-decorators -D
+            npm install babel-loader @babel/core @babel/plugin-proposal-decorators -D
 
         配置:
             1、在 webpack.config.js 中添加 module -> rules 数组中添加 loader 规则
