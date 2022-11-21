@@ -24,7 +24,7 @@ MVVM 模式: 参考 vue_inaction_chapter_01 中的 01_MVVM模式!
 
 Model ModelView View 之间的关系去看 MVVM 图示!
 
-Vue 的声明周期: created, mounted, beforeDestory 三个生命周期!
+Vue 的生命周期: created, mounted, beforeDestory 三个生命周期!
 
 常用标签:
     v-model: 是进行数据双向绑定中的必要元素
@@ -462,6 +462,7 @@ ajax 和 axios 的使用:
 其他:
     1、异步更新队列的问题, 使用到 $nextTick()
     2、script 使用 type="text/x-template" 书写 html 就可以了!
+    3、手动挂载组件  new Vue({}).$mount('#app');
 
 案例: 开发一个 数字输入框 组件!
 
@@ -489,7 +490,7 @@ ajax 和 axios 的使用:
 ---------------------------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------- 第9章 Render函数 -------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------------------------
-暂时不研究, 这个工作用使用的比较少!
+暂时不研究!
 
 
 
@@ -596,11 +597,21 @@ webpack 基础配置:
     
     7、执行 npm run dev 就可以了!
 
-.vue 文件:
+.vue文件:
     文件组成: <template></template>, <script></script>, <style></style> 三部分!
     <style scoped> 中的 scoped 属性, 表示当前css样式, 只对当前这个组件有效, 否则影响整个页面!
 
-使用 .vue 文件 必须使用插件, vue-loader 和 vue-style-loader
+    TODO: .vue文件的固定写法如下:
+        <template></template>
+        <script>
+            export default {
+
+            }
+        </script>
+        <style scoped>
+        </style>
+
+使用 .vue文件 必须使用插件, vue-loader 和 vue-style-loader
     使用的 plugins 和 loader 比较多:
     npm install --save vue
     npm install --save-dev vue-loader
@@ -882,6 +893,49 @@ webpack 配置扩展:
         }
     }
 
+---------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------- 第11章 插件 -------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+什么事 SPA (Single Page Application)?
+    SPA 是由 一个 html  和 一堆 js 文件组成的单页面富应用前端服务, 在 html 中渲染什么东西, 完全取决于 js 的内容, 选取哪个 js 则往往会用到前端路由!
+
+在 vue 中的路由, 就像 动态组件中 具体要加载哪个 vue 组件!
+
+如何注册一个插件:
+    注册插件格式如下:
+    MinePlugin.install = function(Vue, options){
+        // 全局注册组件
+        Vue.component("component-name", {
+
+        }),
+
+        // 添加实例方法
+        Vue.prototype.$Notice = function() {
+
+        },
+
+        // 添加全局方法或属性
+        Vue.globalMethod = function() {
+
+        },
+
+        // 添加全局混合
+        Vue.mixin({
+            mounted: function() {
+
+            }
+        })
+    };
+
+
+如何使用插件:
+    Vue.use(MinePlugin); 
+    
+    或者
+
+    Vue.use(MinePlugin, {
+        // 参数
+    });
 
 
 

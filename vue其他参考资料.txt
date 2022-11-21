@@ -1,0 +1,210 @@
+---------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------- vue-cli -----------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+单页面应用程序 SPA (Single Page Application) 
+
+vue-cli 的安装和配置:
+    安装: 随意打开一个终端执行指令(切换到 root 用户): npm install -g @vue/cli
+
+        安装成功验证: vue -V 有以下的显示:
+        @vue/cli 5.0.8
+
+    创建 vue 项目 (切换到 root 用户):
+        1、vue create 项目名称
+
+        2、选择插件
+            Vue CLI v5.0.8
+            ? Please pick a preset: Manually select features
+            ? Check the features needed for your project: (Press <space> to select, <a> to toggle all, <i> to invert selection, and <enter> to proceed)
+            ◉ Babel                        // 选择
+            ◯ TypeScript
+            ◯ Progressive Web App (PWA) Support
+            ◯ Router
+            ◯ Vuex
+            ◉ CSS Pre-processors           // 选择
+            ❯◯ Linter / Formatter          // 这个是格式化规则用的, 不安装
+            ◯ Unit Testing
+            ◯ E2E Testing
+
+        3、选择vue版本
+            Vue CLI v5.0.8
+            ? Please pick a preset: Manually select features
+            ? Check the features needed for your project: Babel, CSS Pre-processors
+            ? Choose a version of Vue.js that you want to start the project with 
+            3.x 
+            ❯ 2.x                         // 选择 vue2.x 
+
+        4、选择CSS
+            Vue CLI v5.0.8
+            ? Please pick a preset: Manually select features
+            ? Check the features needed for your project: Babel, CSS Pre-processors
+            ? Choose a version of Vue.js that you want to start the project with 2.x
+            ? Pick a CSS pre-processor (PostCSS, Autoprefixer and CSS Modules are supported by default): (Use arrow keys)
+            Sass/SCSS (with dart-sass) 
+            ❯ Less 
+            Stylus 
+
+        5、Babel 和 ESLint 的插件配置, 选择第一项: 独立配置
+            Vue CLI v5.0.8
+            ? Please pick a preset: Manually select features
+            ? Check the features needed for your project: Babel, CSS Pre-processors
+            ? Choose a version of Vue.js that you want to start the project with 2.x
+            ? Pick a CSS pre-processor (PostCSS, Autoprefixer and CSS Modules are supported by default): Less
+            ? Where do you prefer placing config for Babel, ESLint, etc.? (Use arrow keys)
+            ❯ In dedicated config files    // abel, ESLint, etc, 这里选择独立配置
+            In package.json 
+
+        6、是否将上面的配置作为默认配置, 以后可以根据这个配置快速创建!
+            Vue CLI v5.0.8
+            ? Please pick a preset: Manually select features
+            ? Check the features needed for your project: Babel, CSS Pre-processors
+            ? Choose a version of Vue.js that you want to start the project with 2.x
+            ? Pick a CSS pre-processor (PostCSS, Autoprefixer and CSS Modules are supported by default): Less
+            ? Where do you prefer placing config for Babel, ESLint, etc.? In dedicated config files
+            ? Save this as a preset for future projects? (y/N) Y    // 可以选择 Y, 然后起个名称!
+            ? Save preset as: vue2.x-default
+
+        7、创建过程如下:
+            Vue CLI v5.0.8
+            ✨  Creating project in /Users/yangjianwei/VisualProjects/vue_inaction_other_01.
+            🗃  Initializing git repository...
+            ⚙️  Installing CLI plugins. This might take a while...
+
+
+            added 828 packages in 2m
+            🚀  Invoking generators...
+            📦  Installing additional dependencies...
+
+
+            added 20 packages in 8s
+            ⚓  Running completion hooks...
+
+            📄  Generating README.md...
+
+            🎉  Successfully created project vue_inaction_other_01.
+            👉  Get started with the following commands:
+
+            $ cd vue_inaction_other_01
+            $ npm run serve
+
+MacOS 下修改文件, 提示权限不足, 在当前项目的根目录执行赋权限指令就OK了!
+    yangjianwei@yangjianweideMacBook-Pro vue_inaction_other_01 % sudo chmod -R 777 *
+
+创建完成后 看下几个目录的作用:
+    public 目录下存放了 index.html 和 相关的图片!
+    src 文件夹:
+        assets 目录里面放了一些 css, 图片等!
+        components 目录里面放了一些 组件!
+        main.js 是整个项目的入口文件!
+        App.vue 是整个项目的根组件, 一般定义页面的基础结构, 也叫根组件!
+    
+TODO: vue-cli 创建的项目, 渲染执行的过程: 通过 main.js 将 App.vue 渲染到 index.html 中!
+
+用自己的 Test.vue 替换 App.vue 案例!
+
+固定写法如下:
+    TODO: .vue文件的固定写法如下:
+        <template></template>   // 内部只能只有个 root element 根元素!
+        <script>
+            export default {
+
+            }
+        </script>
+        <style scoped>
+        </style>
+
+配置路径提示插件: Path Autocomplete, 自己安装这个插件后, 然后配置 setting.json, 添加如下就可以了!
+    // 导入文件时是否携带文件的拓展名
+    "path-autocomplete.extensionOnImport": true,
+    // 配置@的路径提示
+    "path-autocomplete.pathMappings": {
+        "@": "${folder}/src"
+    },
+
+全局组件:
+    在 main.js 中引入就可以了, 全局组件可以在任意组件中使用! 具体如下:
+        import Count from '@/components/Count.vue'
+        Vue.component("MineCount", Count);
+
+父组件向子组件传递值: props, 这里要注意 props 是只读的, 不能直接修改props!    
+    props: {
+        // 必须是数字类型
+        propA : Number,
+        // 必须是字符串或数字类型
+        propB : [String, Number],
+        // 布尔值，如果没有定义，默认值就是 true
+        propC: {
+            type : Boolean,
+            default : true
+        },
+        // 数字，而且是必传
+        propD: {
+            type: Number,
+            required : true
+        },
+        // 如果是数组或对象，默认值必须是一个函数来返回
+        propE: {
+            type : Array,
+            default : function () {
+                return [] ;
+            }
+        },
+        // 自定义一个验证函数
+        propF: {
+            validator : function (value) {
+                return value > 10;
+            }
+        }
+    }
+
+希望在自己的组件中修改第三方组件样式的时候, 往往是父组件修改子组件的样式, 用到 /deep/ 的用法
+    案例:
+        在 Left.vue 中 修改 Count.vue 的 h5 的样式为 color: red;
+        使用如下:
+        <style lang="less" scoped>
+            /deep/ h5 {
+                color: red;
+            }
+        </style>
+
+组件实例的生命周期: 可以参考官网给出的 vue实例, 其中有 vue实例的生命周期图!
+    beforeCreate:
+    created:            // 重要
+    beforeMount:
+    mounted:            // 重要
+    beforeUpdate:
+    updated:
+    beforeDestroy:
+    destroyed:
+    
+组件之间的关系: 
+    父子组件之间数据共享:
+        父组件 向 子组件 传递值, 通过 props
+        子组件 向 父组件 传递值, 通过 this.$emit() 自定义事件!
+
+    非父子组件之间数据共享:
+        组件之间使用 EventBus 实现!
+
+
+ref 不仅可以引用 DOM 元素, 也可以引用 组件, 举例如下:
+    <h1 ref="mine_h1"></h1>
+    <Left ref="mine_left"></Left>
+
+forEach(), every(), reduce() 方法!
+    举例:
+        arr.forEach((item, index) => {
+            console.log('foreach method, ' + index + '---' + item);
+        });
+        
+        arr.some((item, index) => {
+            console.log('some method, ' + index + '---' + item);
+        });
+
+        // reduce((累加的结果, 循环项) => {}, 初始值)
+        var allpri = 0;
+        var result = arr.filter(item => item.state === true).reduce((allpri, item) => {
+            return allpri += item.price * item.count;
+        }, 0);
+        console.log('result is :' + result);
+
+
