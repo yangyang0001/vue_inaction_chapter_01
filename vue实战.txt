@@ -478,7 +478,7 @@ ajax 和 axios 的使用:
         const app = new Vue({
             el: '#app',
             data: {},
-            directive: {
+            directives: {
                 'app-command' : {
                     // 选项
                 }

@@ -198,6 +198,10 @@ forEach(), every(), reduce() 方法!
         
         arr.some((item, index) => {
             console.log('some method, ' + index + '---' + item);
+            // 找到可以暂停 return true, 这是 some 和 forEach 方法的最大区别
+            if(item === 'lisi') {
+                return true;
+            }
         });
 
         // reduce((累加的结果, 循环项) => {}, 初始值)
@@ -207,4 +211,365 @@ forEach(), every(), reduce() 方法!
         }, 0);
         console.log('result is :' + result);
 
+
+上面的代码都在 vue_inaction_other_01 - vue_inaction_other_05 中!
+
+购物车案例:
+    在 vue_inaction_other_06 工程中!
+
+    安装使用 axios 过程:
+    npm install axios -S
+
+    <input type="checkbox" class="custom-control-input" :id="goods.id" :checked="goods.goods_state" 
+    @change="change_checked(goods.id, !goods.goods_state)"> 默认就有一个 @change 事件!
+
+动态组件:
+    在 vue_inaction_other_07 工程中!
+    使用格式: 
+        <component is="component_id"></component>
+    使用案例:
+        <component is="Left"></component>
+        <component is="Right"></component>
+
+    也可以用以下方式使用: 定义一个 data 属性 component_id 使用 :is="component_id"
+        <p>
+            <button @click="show_left">展示Left组件</button> 
+            &nbsp; &nbsp;
+            <button @click="show_right">展示Right组件</button>
+        </p>
+        <component :is="component_id"></component>
+
+    动态组件常用的一个标签 <keep-alive></keep-alive> , 目的是使组件保活, 使用格式如下:
+        <keep-alive>
+            <component :is="component_id"></component>
+        </keep-alive>
+
+    keep-alive 几个属性:
+        <keep-alive include="Left,Right" exclude="Right" max="1000">
+                <component :is="component_id" />
+        </keep-alive>
+
+        include: 可以缓存的组件!
+        exclude: 不能缓存的组件!
+        max: 最多可以缓存多少个组件!
+
+插槽 slot:
+    在 vue_inaction_other_08 工程中! vue_inaction_other_09 是使用插槽改造 购物车案例!
+    v-slot: 简写形式为 #, (v-slot冒号 简写为 #)
+
+    种类:
+    单个插槽
+    具名插槽
+    作用域槽: 
+        类似于一种子组件 传递数据 给父组件 的一种用法! 具体案例 参考 Book.vue 向 App.vue 中传递数据 message
+        <slot name="content" message="hello vue.js"></slot>
+
+自定义指令:
+    在 vue_inaction_other_10 工程中
+    TODO: 当 自定义指令 在 bind/inserted 和 update 方法有相同的业务逻辑时, 可以简写为 方法的形式! 使用格式如下:
+
+    color(el, binding) {
+        el.style.color = binding.value;
+    }
+
+    /** 注册局部指令的简写方式 */
+    directives: {
+        /** TODO: 如果 bind/inserted 和 update 有相同的业务逻辑, 这时候自定义指令可以简写为 方法的方式! */
+        color(el, binding) {
+            el.style.color = binding.value;
+        }
+    },
+
+    /** 注册全局指令的简写方式 */
+    Vue.directive('color', function (el, binding) {
+        console.log('el is:', el);
+        el.style.color = binding.value;
+    });
+
+
+---------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------- ESLint 的使用 ---------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+ESLint 的使用:
+    ESLint 是规范大家代码格式的一种插件! 
+
+
+    1、vue create 项目名称
+
+    2、选择插件
+        Vue CLI v5.0.8
+        ? Please pick a preset: Manually select features
+        ? Check the features needed for your project: (Press <space> to select, <a> to toggle all, <i> to invert selection, and <enter> to proceed)
+        ◉ Babel                        // 选择
+        ◯ TypeScript
+        ◯ Progressive Web App (PWA) Support
+        ◯ Router
+        ◯ Vuex
+        ◉ CSS Pre-processors           // 选择
+        ❯◉ Linter / Formatter          // TODO: 从这里开始使用 ESLint, 所以选中!
+        ◯ Unit Testing
+        ◯ E2E Testing
+
+    3、选择vue版本
+        Vue CLI v5.0.8
+        ? Please pick a preset: Manually select features
+        ? Check the features needed for your project: Babel, CSS Pre-processors
+        ? Choose a version of Vue.js that you want to start the project with 
+        3.x 
+        ❯ 2.x                         // 选择 vue2.x 
+
+    4、选择CSS
+        Vue CLI v5.0.8
+        ? Please pick a preset: Manually select features
+        ? Check the features needed for your project: Babel, CSS Pre-processors
+        ? Choose a version of Vue.js that you want to start the project with 2.x
+        ? Pick a CSS pre-processor (PostCSS, Autoprefixer and CSS Modules are supported by default): (Use arrow keys)
+        Sass/SCSS (with dart-sass) 
+        ❯ Less 
+        Stylus 
+
+    5、选择安装 ESLint 的语法规范:
+        Vue CLI v5.0.8
+        ? Please pick a preset: Manually select features
+        ? Check the features needed for your project: Babel, CSS Pre-processors, Linter
+        ? Choose a version of Vue.js that you want to start the project with 2.x
+        ? Pick a CSS pre-processor (PostCSS, Autoprefixer and CSS Modules are supported by default): Less
+        ? Pick a linter / formatter config: (Use arrow keys)
+        ESLint with error prevention only 
+        ESLint + Airbnb config 
+        ❯ ESLint + Standard config
+        ESLint + Prettier 
+
+    6、建议 保存的时候就触发 Lint 代码格式检查!
+        Vue CLI v5.0.8
+        ? Please pick a preset: Manually select features
+        ? Check the features needed for your project: Babel, CSS Pre-processors, Linter
+        ? Choose a version of Vue.js that you want to start the project with 2.x
+        ? Pick a CSS pre-processor (PostCSS, Autoprefixer and CSS Modules are supported by default): Less
+        ? Pick a linter / formatter config: Standard
+        ? Pick additional lint features: (Press <space> to select, <a> to toggle all, <i> to invert selection, and <enter> to proceed)
+        ❯◉ Lint on save             // 代码保存的时候进行 Lint 检查! 建议 保存的时候就触发 Lint 代码格式检查!
+        ◯ Lint and fix on commit    // 提交代码的时候, 进行代码的 Lint 检查!
+
+
+    7、Babel 和 ESLint 等配置文件的存放位置, 选择第一项: 独立配置
+        Vue CLI v5.0.8
+        ? Please pick a preset: Manually select features
+        ? Check the features needed for your project: Babel, CSS Pre-processors, Linter
+        ? Choose a version of Vue.js that you want to start the project with 2.x
+        ? Pick a CSS pre-processor (PostCSS, Autoprefixer and CSS Modules are supported by default): Less
+        ? Pick a linter / formatter config: Standard
+        ? Pick additional lint features: Lint on save
+        ? Where do you prefer placing config for Babel, ESLint, etc.? (Use arrow keys)
+        ❯ In dedicated config files 
+        In package.json 
+
+    8、是否将刚才的设计存放为预设, 以后直接使用!
+        Vue CLI v5.0.8
+        ? Please pick a preset: Manually select features
+        ? Check the features needed for your project: Babel, CSS Pre-processors, Linter
+        ? Choose a version of Vue.js that you want to start the project with 2.x
+        ? Pick a CSS pre-processor (PostCSS, Autoprefixer and CSS Modules are supported by default): Less
+        ? Pick a linter / formatter config: Standard
+        ? Pick additional lint features: Lint on save
+        ? Where do you prefer placing config for Babel, ESLint, etc.? In dedicated config files
+        ? Save this as a preset for future projects? (y/N)   y
+        ? Save preset as: vue2.x-default-eslint     // 将上面的设置起个名字保存起来!
+
+    8、创建过程如下:
+        Vue CLI v5.0.8
+        ✨  Creating project in /Users/yangjianwei/VisualProjects/vue_inaction_other_11.
+        🗃  Initializing git repository...
+        ⚙️  Installing CLI plugins. This might take a while...
+
+
+        added 848 packages in 13s
+        🚀  Invoking generators...
+        📦  Installing additional dependencies...
+
+
+        added 156 packages in 5s
+        ⚓  Running completion hooks...
+
+        📄  Generating README.md...
+
+        🎉  Successfully created project vue_inaction_other_11.
+        👉  Get started with the following commands:
+
+        $ cd vue_inaction_other_11
+        $ npm run serve
+
+
+为了满足 ESLint 的变态需求, 这时候需要 安装一些插件, 辅助我们更好的开发!
+
+    安装 ESLint
+    安装 Prettier - Code formatter
+
+    npm install axios --force 或者 npm install axios --legacy-peer-dep
+
+
+axios 的合理使用 + ESLint 的综合使用:
+    参考 vue_inaction_other_11 工程!
+
+    因为每次都要导入 axios 这样就会重复很多不必要的工作, 我们做以下修改:
+        1、main.js 中导入 axios
+        2、配置 Vue.prototype.axios 
+
+    具体代码如下:
+        import axios from 'axios'
+        axios.defaults.baseURL = 'http://localhost:8080/';  // 配置根路径, 以后就不需要填写了, 这块自动拼接了!
+        Vue.prototype.axios = axios;
+
+    这按就不要再使用的地方导入了, 直接使用 this.axios.get('getBooks') 就OK了!
+    
+模拟路由案例, 引出 vue_inaction_other_13 工程 vue-router 的使用!
+    参考 vue_inaction_other_12 工程!
+
+    前端路由的概念和使用原理:
+        路由的概念: 在 SPA 前端中, 路由是 hashURL 和 组件的对应关系!
+
+    有 window.onhashchange 事件, 因此可以在 create() {} 生命周期函数中, 设置这种监听!
+
+    模拟路由案例: 使用的就是上面的 window.onhashchange 事件的变化, 监听 location.hash 的变化!
+
+vue-router 的使用, 只能在 vue 项目中使用!
+    参考 vue_inaction_other_13 工程!
+
+    vue-router 的安装和配置: TODO: 特别注意下版本, 否则会出问题!
+    安装:
+        npm uninstall vue-router
+        npm install vue-router@3.5.2
+
+
+    配置:
+        1、在 src 目录下创建一个 router/index.js 路由模块
+
+        2、在 index.js 中 导入 Vue 和 VueRouter
+            import Vue from 'vue'
+            import VueRouter from 'vue-router'
+
+        3、在 Vue 中使用 VueRouter
+            Vue.use(VueRouter);
+
+        4、创建 router 实例
+            const router = new VueRouter({
+                routes: [
+                    { path: '/home', component: Home },
+                    { path: '/movie', component: Movie },
+                    { path: '/about', component: About },
+                ]
+            });
+
+        5、导出 router 实例
+            export default router
+
+        6、将 router 挂载在 main.js 中!
+            import router from '@/router/index.js'
+
+            new Vue({
+                render: h => h(App),
+                // 挂载 路由实例
+                router: router
+            }).$mount('#app')
+
+
+        7、在项目中使用直接 
+            参考 App2.vue 中的 <router-link to=""></router-link> 和 <router-view></router-view> 标签!
+
+    路由重定向, 使用 redirect, 配置路由表如下:
+        routes: [
+            { path: '/', redirect: '/home' },
+            { path: '/home', component: Home },
+            { path: '/movie', component: Movie },
+            { path: '/about', component: About },
+        ]
+
+
+    嵌套路由:声明子路由关系必须使用 children 属性, 具体配置如下:
+        routes: [
+            { path: '/', redirect: '/home' },
+            { path: '/home', component: Home },
+            { path: '/movie', component: Movie },
+            {
+                path: '/about', component: About, redirect: '/about/left',
+                children: [
+                    { path: 'left', component: Left },
+                    { path: 'right', component: Right },
+                ]
+            },
+        ]
+
+    动态路由: 就是在上面的 路由表中 添加动态数据, 将可变的部分变成 动态参数 就OK了, 使用 冒号 来代表 动态参数!
+
+        在 Movie.vue 中
+            <router-link to="/movie/雷神">雷神</router-link>  &nbsp;&nbsp;
+            <router-link to="/movie/木乃伊">木乃伊</router-link>  &nbsp;&nbsp;
+            <router-link to="/movie/星际穿越">星际穿越</router-link>  &nbsp;&nbsp;
+            <router-link to="/movie/教父">教父</router-link>  &nbsp;&nbsp;
+            <router-link to="/movie/异形">异形</router-link>
+            <hr/>
+
+            <router-view></router-view>
+
+        在 MovieDesc.vue 中, TODO: 使用 this.$route.params.name, 这个 name 是下面用冒号的占位符, 可以打印 this看下!
+            <template>
+                <div class="movie_desc">
+                    <h5>{{this.$route.params.name}} 播放区</h5>
+                </div>
+            </template>    
+
+        在 src/router/index.js routes 的配置如下: 用 :name 表示参数占位符!
+            {
+                path: '/movie', component: Movie, redirect: '/movie/雷神',
+                children: [
+                    { path: ':name', component: MovieDesc},
+                ]
+            },    
+
+    动态路由的另外一种获取参数方式: 使用 props: true 开启路由传参!
+        在 index.js routes 中配置如下:
+            {
+                path: '/movie', component: Movie, redirect: '/movie/雷神', 
+                children: [
+                    { path: ':name', component: MovieDesc, props: true},    // 必须配置 props: true 才能开启路由传参!
+                ]
+            },
+
+        在 MovieDesc.vue 中定义一个 props: ['name'], 就可以使用  {{name}} 直接拿到参数了!
+
+    TODO: 上面的例子中获取的参数为 路径参数! 这种路径参数标识就是 /:name , 另外还有 ?name="" 这种传递参数的, 这种称为 查询参数!
+        路径参数获取: this.$route.params.name
+        查询参数获取: this.$route.query.username 和 this.$route.query.age
+
+    导航的分类: 声明式导航 和 编程式导航! 
+
+        声明式导航 
+            经典代表 <router-link to=""></router-link> <a href=""></a>
+
+        编程式导航 
+            vue-router 提供了许多编程式导航 API, 最常用的导航 API 是:
+            1、this.$router.push(hashURL)   // 跳转到 指定的 hashURL, 并增加一条历史记录!
+                举例: 假设在 Home 组件中, 有个按钮能够 跳转到 Movie.vue 中的 星际穿越 电影!
+
+            2、this.$router.replace(hashURL)    // 跳转到 指定的 hashURL, 并清除历史!
+
+            3、this.$router.go()                // 在浏览历史中前进或者后退!
+                后退一步: this.$router.go(-1);  可以简写为: $router.back();
+                前进一步: this.$router.go(1);   可以简写为: $router.forward();
+
+            具体案例如下:
+                <button @click="push_hash">通过 push 跳转到Movie.vue中的 星际穿越 电影</button>       &nbsp;&nbsp;
+                <button @click="replace_hash">通过 replace 跳转到Movie.vue中的 星际穿越 电影</button> &nbsp;&nbsp;
+                <button @click="go_back">通过 go 方法 在浏览历史中&nbsp;后退</button>  &nbsp;&nbsp;
+                <button @click="go_forw">通过 go 方法 在浏览历史中&nbsp;前进</button>  &nbsp;&nbsp;
+                <button @click="$router.back()">在浏览历史中后退一步的简写形式</button> &nbsp;&nbsp;
+                <button @click="$router.forward()">在浏览历史中前进一步的简写形式</button>
+
+    导航卫士: 可以控制 导航路由的 访问权限!
+                                                        　　　　　|----> (已登录) ----> 首页
+        <router-link to="/home"></router-link>    ----> 导航卫士　|
+                                                        　　　　　|----> (未登录) ----> 登录页
+
+        设置全局的导航守卫:
+            在 src/router/index.js 中 配置!
 
