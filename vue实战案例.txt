@@ -2,6 +2,8 @@
 ------------------------------------------------------------- vue-cli -----------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------------------------
 单页面应用程序 SPA (Single Page Application) 
+这里的所有 接口都在 springboot-vue 中, 可以自己去下载使用, git@github.com:yangyang0001/springboot-vue.git
+
 
 vue-cli 的安装和配置:
     安装: 随意打开一个终端执行指令(切换到 root 用户): npm install -g @vue/cli
@@ -573,3 +575,43 @@ vue-router 的使用, 只能在 vue 项目中使用!
         设置全局的导航守卫:
             在 src/router/index.js 中 配置!
 
+ 后台管理案例:
+    在 vue_inaction_other_14 中! 主要是 对路由知识 vue-router 的练习!
+
+
+项目练习: 
+    在 vue_inaction_other_15 中, 配合 springboot-vue 工程使用, 在 本人的 Github 中就可以找到!
+
+    TODO: 约定: components 中存放的是 公用的组件, views 中存放的是 路由的组件!
+
+    安装和配置 Vant 组件库:
+        参考中文网站: https://vant-contrib.gitee.io/vant/#/zh-CN
+
+    vue_inaction_other_15 工程中 这里面有个 下拉刷新 和 上拉加载更多! 使的是 Vant 中 list 数组!
+
+    Vant 定制主题 进行修改样式: 理论上这些规美工!
+    官网操作过程:
+        参考 vue.config.js 文件中的配置, 可以参考 官网 定制主题 配合来看!
+        const path = require('path')
+        const coverPath = path.join(__dirname, './src/assets/cover.less')
+
+        // const { defineConfig } = require('@vue/cli-service')
+        module.exports = {
+            transpileDependencies: true,
+            publicPath: './',       // 作用: npm run build 在 dist 文件夹下生成的 html 能够在本地打开!
+            css: {                  // 定制主题样式
+                loaderOptions: {
+                    less: {
+                        // 若 less-loader 版本小于 6.0，请移除 lessOptions 这一级，直接配置选项。
+                        lessOptions: {
+                            modifyVars: {
+                                // 直接覆盖变量
+                                // 'nav-bar-background-color': 'red',
+                                // 或者可以通过 less 文件覆盖（文件路径为绝对路径）
+                                hack: `true; @import "${coverPath}";`,
+                            },
+                        },
+                    },
+                },
+            },
+        }
